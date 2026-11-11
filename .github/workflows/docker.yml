@@ -15,6 +15,6 @@ jobs:
           platforms: linux/amd64
           push: false
           load: true
-          tags: ${{ github.repository_name }}:smoke
+          tags: quota:smoke
       - name: Smoke run
-        run: docker run --rm ${{ github.repository_name }}:smoke
+        run: docker run --rm quota:smoke
