@@ -1,0 +1,9 @@
+.git
+.github
+.gitignore
+**/__pycache__
+**/*.pyc
+.pytest_cache
+target/
+*.md
+!README.md

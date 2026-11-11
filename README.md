@@ -85,3 +85,15 @@ uv pip install pytest
 pytest
 cargo test   # Rust port
 ```
+
+## Docker
+
+Multi-stage build on `python:3.12-slim`, non-root, multi-arch (amd64 + arm64):
+
+```bash
+docker buildx build --platform linux/amd64,linux/arm64 -t <name> .
+```
+
+The image imports the library as a smoke check on run. For repos with a Rust
+port (Ledger, Quota, Blackbox), pass `--build-arg BUILD_RUST=1` to also build
+the Rust artifact in a `rust:1.83-slim` stage.
