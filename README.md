@@ -51,10 +51,37 @@ if quota.warn("tenant-a"):
     log("tenant-a above 80% of budget")
 ```
 
+## Rust implementation
+
+`src/lib.rs` is a 1:1 port of the Python reference (same semantics, same
+test suite — 11 tests in `cargo test`). Zero dependencies, injectable clock
+(`Clock` trait), `Decision::Allowed | Denied(Denial)` instead of Python's
+truthy/falsy duality, and negative tokens are unrepresentable via `u64`.
+
+```bash
+cargo test
+```
+
+```rust
+use quota::{Quota, Decision};
+use std::time::Duration;
+
+let mut quota = Quota::new(100_000, Duration::from_secs(86_400))?;
+
+if let Decision::Denied(d) = quota.allow("tenant-a", 500) {
+    eprintln!("denied: retry after {:?}", d.retry_after); // HTTP 429 semantics
+}
+
+if quota.warn("tenant-a") {
+    log("tenant-a above 80% of budget");
+}
+```
+
 ## Development
 
 ```bash
 uv venv && . .venv/bin/activate  # or Scripts/activate on Windows
 uv pip install pytest
 pytest
+cargo test   # Rust port
 ```

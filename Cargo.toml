@@ -1,0 +1,10 @@
+[package]
+name = "quota"
+version = "0.1.0"
+edition = "2021"
+description = "Per-tenant token budgets with scheduled reset, 80% warn flag, structured denial with retry_after."
+license = "MIT"
+
+[lib]
+name = "quota"
+path = "src/lib.rs"
